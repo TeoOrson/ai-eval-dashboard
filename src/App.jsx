@@ -12,18 +12,18 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen">
-      <header className="border-b border-white/5 bg-black/30 backdrop-blur-md sticky top-0 z-10">
+    <div className="min-h-screen bg-slate-100">
+      <header className="border-b border-slate-200 bg-white/80 backdrop-blur-md sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold tracking-tight m-0 leading-none bg-gradient-to-r from-cyan-300 to-teal-300 bg-clip-text text-transparent">
+            <h1 className="text-xl font-bold tracking-tight m-0 leading-none bg-gradient-to-r from-cyan-600 to-teal-700 bg-clip-text text-transparent">
               AI Response Evaluator
             </h1>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-slate-400 mt-1">
               Compare and score AI responses with structured rubrics
             </p>
           </div>
-          <nav className="flex gap-1 bg-gray-900/60 p-1 rounded-lg border border-gray-800/60">
+          <nav className="flex gap-1 bg-slate-100 p-1 rounded-lg border border-slate-200">
             <TabButton active={activeTab === 'new'} onClick={() => setActiveTab('new')}>
               New Evaluation
             </TabButton>
@@ -51,8 +51,8 @@ function TabButton({ active, onClick, children }) {
       onClick={onClick}
       className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
         active
-          ? 'bg-gradient-to-r from-cyan-600 to-teal-600 text-white shadow-md shadow-cyan-900/40'
-          : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800/60'
+          ? 'bg-gradient-to-r from-cyan-600 to-teal-600 text-white shadow-sm'
+          : 'text-slate-500 hover:text-slate-800 hover:bg-white'
       }`}
     >
       {children}

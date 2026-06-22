@@ -68,8 +68,7 @@ export default function EvaluationForm({ onSaved }) {
   const totalA = Object.values(form.scoresA).reduce((a, b) => a + b, 0)
   const totalB = Object.values(form.scoresB).reduce((a, b) => a + b, 0)
 
-  // Step statuses
-  const promptStatus   = form.prompt.trim() ? 'complete' : 'empty'
+  const promptStatus    = form.prompt.trim() ? 'complete' : 'empty'
   const responsesStatus =
     form.responseA.trim() && form.responseB.trim() ? 'complete' :
     form.responseA.trim() || form.responseB.trim() ? 'active' : 'empty'
@@ -81,12 +80,7 @@ export default function EvaluationForm({ onSaved }) {
   return (
     <div className="space-y-0">
       {/* ── Step 1: Prompt ── */}
-      <StepCard
-        number={1} title="Prompt"
-        status={promptStatus}
-        isOpen={open.prompt}
-        onToggle={() => toggle('prompt')}
-      >
+      <StepCard number={1} title="Prompt" status={promptStatus} isOpen={open.prompt} onToggle={() => toggle('prompt')}>
         <textarea
           className="input-area h-28"
           placeholder="Paste the prompt / task given to the AI..."
@@ -98,35 +92,17 @@ export default function EvaluationForm({ onSaved }) {
       <StepConnector />
 
       {/* ── Step 2: Responses ── */}
-      <StepCard
-        number={2} title="Responses"
-        status={responsesStatus}
-        isOpen={open.responses}
-        onToggle={() => toggle('responses')}
-      >
+      <StepCard number={2} title="Responses" status={responsesStatus} isOpen={open.responses} onToggle={() => toggle('responses')}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <ResponseBlock
-            label="Response A" color="violet"
-            value={form.responseA}
-            onChange={v => setField('responseA', v)}
-          />
-          <ResponseBlock
-            label="Response B" color="amber"
-            value={form.responseB}
-            onChange={v => setField('responseB', v)}
-          />
+          <ResponseBlock label="Response A" color="violet" value={form.responseA} onChange={v => setField('responseA', v)} />
+          <ResponseBlock label="Response B" color="amber"  value={form.responseB} onChange={v => setField('responseB', v)} />
         </div>
       </StepCard>
 
       <StepConnector />
 
       {/* ── Step 3: Scoring ── */}
-      <StepCard
-        number={3} title="Scoring"
-        status={scoringStatus}
-        isOpen={open.scoring}
-        onToggle={() => toggle('scoring')}
-      >
+      <StepCard number={3} title="Scoring" status={scoringStatus} isOpen={open.scoring} onToggle={() => toggle('scoring')}>
         <div className="space-y-5">
           <CriteriaTable
             criteria={CRITERIA}
@@ -137,45 +113,29 @@ export default function EvaluationForm({ onSaved }) {
             totalA={totalA}
             totalB={totalB}
           />
-          <ScoreComparison
-            totalA={totalA} totalB={totalB}
-            scoresA={form.scoresA} scoresB={form.scoresB}
-          />
+          <ScoreComparison totalA={totalA} totalB={totalB} scoresA={form.scoresA} scoresB={form.scoresB} />
         </div>
       </StepCard>
 
       <StepConnector />
 
       {/* ── Step 4: Verdict ── */}
-      <StepCard
-        number={4} title="Verdict"
-        status={verdictStatus}
-        isOpen={open.verdict}
-        onToggle={() => toggle('verdict')}
-      >
+      <StepCard number={4} title="Verdict" status={verdictStatus} isOpen={open.verdict} onToggle={() => toggle('verdict')}>
         <div className="space-y-6">
-          {/* Winner */}
           <div>
             <SectionLabel>Winner</SectionLabel>
             <div className="flex flex-wrap gap-3 mt-2">
               {['A', 'B', 'Tie'].map(option => (
-                <WinnerButton
-                  key={option}
-                  option={option}
-                  selected={form.winner === option}
-                  onClick={() => setField('winner', option)}
-                />
+                <WinnerButton key={option} option={option} selected={form.winner === option} onClick={() => setField('winner', option)} />
               ))}
             </div>
           </div>
 
-          {/* Issue Tags */}
           <div>
             <SectionLabel>Issue Tags</SectionLabel>
             <IssueTags selected={form.tags} onChange={tags => setField('tags', tags)} />
           </div>
 
-          {/* Reasoning */}
           <div>
             <SectionLabel>Reasoning / Notes</SectionLabel>
             <textarea
@@ -186,22 +146,21 @@ export default function EvaluationForm({ onSaved }) {
             />
           </div>
 
-          {/* Actions */}
           <div className="flex items-center gap-3 pt-1">
             <button
               onClick={handleSave}
-              className="px-6 py-2.5 bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white rounded-lg font-medium transition-all shadow-lg shadow-cyan-900/30"
+              className="px-6 py-2.5 bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white rounded-lg font-medium transition-all shadow-md shadow-cyan-200"
             >
               Save Evaluation
             </button>
             <button
               onClick={handleReset}
-              className="px-6 py-2.5 bg-gray-800/80 hover:bg-gray-700 text-gray-300 rounded-lg font-medium transition-colors border border-gray-700/50"
+              className="px-6 py-2.5 bg-white hover:bg-slate-50 text-slate-600 rounded-lg font-medium transition-colors border border-slate-200"
             >
               Reset
             </button>
             {saved && (
-              <span className="text-emerald-400 text-sm font-medium animate-fade-in">✓ Saved</span>
+              <span className="text-emerald-600 text-sm font-medium animate-fade-in">✓ Saved</span>
             )}
           </div>
         </div>
@@ -210,44 +169,41 @@ export default function EvaluationForm({ onSaved }) {
   )
 }
 
-/* ── Criteria table (unified A vs B) ──────────────────────────── */
+/* ── Criteria table ─────────────────────────────────────────── */
 
 function CriteriaTable({ criteria, scoresA, scoresB, onScoreA, onScoreB, totalA, totalB }) {
   return (
-    <div className="bg-gray-950/60 border border-gray-800/40 rounded-xl overflow-hidden">
-      {/* Column headers */}
-      <div className="grid grid-cols-[1fr_164px_164px] px-4 py-2.5 border-b border-gray-800/40 bg-gray-900/40">
-        <span className="text-xs text-gray-600 font-medium uppercase tracking-wider">Criterion</span>
-        <span className="text-xs font-semibold text-violet-400 text-center">Response A</span>
-        <span className="text-xs font-semibold text-amber-400 text-center">Response B</span>
+    <div className="border border-slate-200 rounded-xl overflow-hidden bg-white">
+      <div className="grid grid-cols-[1fr_164px_164px] px-4 py-2.5 border-b border-slate-100 bg-slate-50">
+        <span className="text-xs text-slate-400 font-medium uppercase tracking-wider">Criterion</span>
+        <span className="text-xs font-semibold text-violet-600 text-center">Response A</span>
+        <span className="text-xs font-semibold text-amber-600 text-center">Response B</span>
       </div>
 
-      {/* Rows */}
       <div className="overflow-x-auto">
         <div className="min-w-[520px]">
           {criteria.map((c, i) => (
             <div
               key={c.key}
               className={`grid grid-cols-[1fr_164px_164px] items-center px-4 py-3 ${
-                i < criteria.length - 1 ? 'border-b border-gray-800/30' : ''
-              }`}
+                i < criteria.length - 1 ? 'border-b border-slate-100' : ''
+              } ${i % 2 === 1 ? 'bg-slate-50/50' : 'bg-white'}`}
             >
-              <span className="text-sm text-gray-300">{c.label}</span>
+              <span className="text-sm text-slate-700">{c.label}</span>
               <PipRow score={scoresA[c.key]} onScore={val => onScoreA(c.key, val)} color="violet" />
               <PipRow score={scoresB[c.key]} onScore={val => onScoreB(c.key, val)} color="amber" />
             </div>
           ))}
 
-          {/* Totals row */}
-          <div className="grid grid-cols-[1fr_164px_164px] items-center px-4 py-3 bg-gray-900/40 border-t border-gray-800/50">
-            <span className="text-xs text-gray-500 font-medium uppercase tracking-wider">Total</span>
+          <div className="grid grid-cols-[1fr_164px_164px] items-center px-4 py-3 bg-slate-50 border-t border-slate-200">
+            <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Total</span>
             <div className="text-center">
-              <span className="text-xl font-bold text-violet-400 tabular-nums">{totalA}</span>
-              <span className="text-xs text-gray-600">/30</span>
+              <span className="text-xl font-bold text-violet-600 tabular-nums">{totalA}</span>
+              <span className="text-xs text-slate-400">/30</span>
             </div>
             <div className="text-center">
-              <span className="text-xl font-bold text-amber-400 tabular-nums">{totalB}</span>
-              <span className="text-xs text-gray-600">/30</span>
+              <span className="text-xl font-bold text-amber-600 tabular-nums">{totalB}</span>
+              <span className="text-xs text-slate-400">/30</span>
             </div>
           </div>
         </div>
@@ -258,8 +214,8 @@ function CriteriaTable({ criteria, scoresA, scoresB, onScoreA, onScoreB, totalA,
 
 function PipRow({ score, onScore, color }) {
   const active = color === 'violet'
-    ? 'bg-violet-500 text-white shadow-md shadow-violet-500/40 scale-110'
-    : 'bg-amber-500 text-white shadow-md shadow-amber-500/40 scale-110'
+    ? 'bg-violet-600 text-white shadow-sm shadow-violet-200 scale-110'
+    : 'bg-amber-500 text-white shadow-sm shadow-amber-200 scale-110'
 
   return (
     <div className="flex gap-1 justify-center">
@@ -268,7 +224,7 @@ function PipRow({ score, onScore, color }) {
           key={val}
           onClick={() => onScore(val === score ? 0 : val)}
           className={`w-7 h-7 rounded-lg text-xs font-bold transition-all ${
-            score >= val ? active : 'bg-gray-800/80 text-gray-600 hover:bg-gray-700 hover:text-gray-400'
+            score >= val ? active : 'bg-slate-100 text-slate-400 hover:bg-slate-200 hover:text-slate-600'
           }`}
         >
           {val}
@@ -278,29 +234,29 @@ function PipRow({ score, onScore, color }) {
   )
 }
 
-/* ── Sub-components ──────────────────────────────────────────── */
+/* ── Sub-components ─────────────────────────────────────────── */
 
 function SectionLabel({ children }) {
-  return (
-    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{children}</p>
-  )
+  return <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{children}</p>
 }
 
 function ResponseBlock({ label, value, onChange, color }) {
   const isViolet = color === 'violet'
-  const border = isViolet ? 'border-violet-800/40' : 'border-amber-800/40'
+  const border = isViolet ? 'border-violet-200' : 'border-amber-200'
   const badge  = isViolet
-    ? 'bg-violet-900/40 text-violet-300 border border-violet-800/50'
-    : 'bg-amber-900/40 text-amber-300 border border-amber-800/50'
-  const focus  = isViolet ? 'focus:border-violet-500/60' : 'focus:border-amber-500/60'
+    ? 'bg-violet-100 text-violet-700 border border-violet-200'
+    : 'bg-amber-100 text-amber-700 border border-amber-200'
+  const focus  = isViolet
+    ? 'focus:border-violet-400 focus:ring-2 focus:ring-violet-100'
+    : 'focus:border-amber-400 focus:ring-2 focus:ring-amber-100'
 
   return (
-    <div className={`rounded-xl border ${border} bg-gray-900/60 p-4`}>
+    <div className={`rounded-xl border ${border} bg-white p-4 shadow-sm`}>
       <span className={`inline-block text-xs font-semibold px-2.5 py-1 rounded-full mb-3 ${badge}`}>
         {label}
       </span>
       <textarea
-        className={`w-full h-44 bg-gray-950/60 border border-gray-800/60 rounded-lg px-3 py-2.5 text-sm text-gray-200 placeholder-gray-600 resize-none focus:outline-none transition-all ${focus}`}
+        className={`w-full h-44 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400 resize-none focus:outline-none transition-all ${focus}`}
         placeholder={`Paste ${label} here...`}
         value={value}
         onChange={e => onChange(e.target.value)}
@@ -311,19 +267,15 @@ function ResponseBlock({ label, value, onChange, color }) {
 
 function WinnerButton({ option, selected, onClick }) {
   const cfg = {
-    A:   { active: 'bg-violet-600 border-violet-500 shadow-violet-900/40', idle: 'border-gray-700/60 hover:border-violet-700/60 hover:text-violet-300', label: 'Response A Wins' },
-    B:   { active: 'bg-amber-600  border-amber-500  shadow-amber-900/40',  idle: 'border-gray-700/60 hover:border-amber-700/60  hover:text-amber-300',  label: 'Response B Wins' },
-    Tie: { active: 'bg-cyan-600   border-cyan-500   shadow-cyan-900/40',   idle: 'border-gray-700/60 hover:border-cyan-700/60   hover:text-cyan-300',   label: 'Tie'             },
+    A:   { active: 'bg-violet-600 border-violet-600 text-white shadow-md shadow-violet-200', idle: 'bg-white border-slate-200 text-slate-600 hover:border-violet-300 hover:text-violet-600', label: 'Response A Wins' },
+    B:   { active: 'bg-amber-500  border-amber-500  text-white shadow-md shadow-amber-200',  idle: 'bg-white border-slate-200 text-slate-600 hover:border-amber-300  hover:text-amber-600',  label: 'Response B Wins' },
+    Tie: { active: 'bg-cyan-600   border-cyan-600   text-white shadow-md shadow-cyan-200',   idle: 'bg-white border-slate-200 text-slate-600 hover:border-cyan-300   hover:text-cyan-600',   label: 'Tie'             },
   }[option]
 
   return (
     <button
       onClick={onClick}
-      className={`px-5 py-2.5 rounded-lg border text-sm font-semibold transition-all ${
-        selected
-          ? `${cfg.active} text-white shadow-lg`
-          : `bg-gray-900/80 text-gray-400 ${cfg.idle}`
-      }`}
+      className={`px-5 py-2.5 rounded-lg border text-sm font-semibold transition-all ${selected ? cfg.active : cfg.idle}`}
     >
       {cfg.label}
     </button>

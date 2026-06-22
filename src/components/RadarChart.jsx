@@ -32,14 +32,14 @@ export default function RadarChart({ scoresA, scoresB }) {
             return `${x},${y}`
           }).join(' ')}
           fill="none"
-          stroke="#1f2937"
+          stroke="#e2e8f0"
           strokeWidth="1"
         />
       ))}
 
       {/* Axes */}
       {axes.map(({ x, y }, i) => (
-        <line key={i} x1={CX} y1={CY} x2={x} y2={y} stroke="#374151" strokeWidth="1" />
+        <line key={i} x1={CX} y1={CY} x2={x} y2={y} stroke="#cbd5e1" strokeWidth="1" />
       ))}
 
       {/* B polygon — amber */}
@@ -68,7 +68,7 @@ export default function RadarChart({ scoresA, scoresB }) {
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize="8.5"
-          fill="#6b7280"
+          fill="#94a3b8"
         >
           {label}
         </text>
@@ -76,9 +76,9 @@ export default function RadarChart({ scoresA, scoresB }) {
 
       {/* Legend */}
       <rect x="6" y="184" width="8" height="3" rx="1" fill="#8b5cf6" />
-      <text x="17" y="187" fontSize="8" fill="#6b7280" dominantBaseline="middle">A</text>
+      <text x="17" y="187" fontSize="8" fill="#94a3b8" dominantBaseline="middle">A</text>
       <rect x="30" y="184" width="8" height="3" rx="1" fill="#f59e0b" />
-      <text x="41" y="187" fontSize="8" fill="#6b7280" dominantBaseline="middle">B</text>
+      <text x="41" y="187" fontSize="8" fill="#94a3b8" dominantBaseline="middle">B</text>
     </svg>
   )
 }
