@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ScorePanel from './ScorePanel'
 import IssueTags from './IssueTags'
+import ScoreComparison from './ScoreComparison'
 import { saveEvaluation } from '../utils/storage'
 
 const CRITERIA = [
@@ -12,8 +13,7 @@ const CRITERIA = [
   { key: 'overall', label: 'Overall Quality' },
 ]
 
-const defaultScores = () =>
-  Object.fromEntries(CRITERIA.map(c => [c.key, 0]))
+const defaultScores = () => Object.fromEntries(CRITERIA.map(c => [c.key, 0]))
 
 const defaultForm = () => ({
   prompt: '',
@@ -64,7 +64,7 @@ export default function EvaluationForm({ onSaved }) {
   return (
     <div className="space-y-8">
       {/* Prompt */}
-      <section>
+      <section className="animate-fade-up" style={{ animationDelay: '0ms' }}>
         <Label>Prompt</Label>
         <textarea
           className="input-area h-24"
@@ -75,7 +75,7 @@ export default function EvaluationForm({ onSaved }) {
       </section>
 
       {/* Responses side by side */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="animate-fade-up grid grid-cols-1 lg:grid-cols-2 gap-6" style={{ animationDelay: '60ms' }}>
         <ResponseBlock
           label="Response A"
           value={form.responseA}
@@ -91,8 +91,10 @@ export default function EvaluationForm({ onSaved }) {
       </div>
 
       {/* Scoring */}
-      <section>
-        <h2 className="text-base font-semibold text-white mb-4">Scoring Rubric</h2>
+      <section className="animate-fade-up" style={{ animationDelay: '100ms' }}>
+        <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-widest mb-4">
+          Scoring Rubric
+        </h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <ScorePanel
             label="Response A"
@@ -113,10 +115,18 @@ export default function EvaluationForm({ onSaved }) {
         </div>
       </section>
 
+      {/* Live score comparison + radar */}
+      <ScoreComparison
+        totalA={totalA}
+        totalB={totalB}
+        scoresA={form.scoresA}
+        scoresB={form.scoresB}
+      />
+
       {/* Winner */}
-      <section>
+      <section className="animate-fade-up" style={{ animationDelay: '140ms' }}>
         <Label>Winner</Label>
-        <div className="flex gap-3 mt-2">
+        <div className="flex flex-wrap gap-3 mt-2">
           {['A', 'B', 'Tie'].map(option => (
             <WinnerButton
               key={option}
@@ -129,13 +139,13 @@ export default function EvaluationForm({ onSaved }) {
       </section>
 
       {/* Issue Tags */}
-      <section>
+      <section className="animate-fade-up" style={{ animationDelay: '160ms' }}>
         <Label>Issue Tags</Label>
         <IssueTags selected={form.tags} onChange={tags => setField('tags', tags)} />
       </section>
 
       {/* Reasoning */}
-      <section>
+      <section className="animate-fade-up" style={{ animationDelay: '180ms' }}>
         <Label>Reasoning / Notes</Label>
         <textarea
           className="input-area h-28"
@@ -146,22 +156,22 @@ export default function EvaluationForm({ onSaved }) {
       </section>
 
       {/* Actions */}
-      <div className="flex items-center gap-3 pt-2">
+      <div className="animate-fade-up flex items-center gap-3 pt-2" style={{ animationDelay: '200ms' }}>
         <button
           onClick={handleSave}
-          className="px-6 py-2.5 bg-violet-600 hover:bg-violet-500 text-white rounded-lg font-medium transition-colors"
+          className="px-6 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white rounded-lg font-medium transition-all shadow-lg shadow-violet-900/30"
         >
           Save Evaluation
         </button>
         <button
           onClick={handleReset}
-          className="px-6 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg font-medium transition-colors"
+          className="px-6 py-2.5 bg-gray-800/80 hover:bg-gray-700 text-gray-300 rounded-lg font-medium transition-colors border border-gray-700/50"
         >
           Reset
         </button>
         {saved && (
-          <span className="text-emerald-400 text-sm font-medium">
-            ✓ Saved successfully
+          <span className="text-emerald-400 text-sm font-medium animate-fade-in">
+            ✓ Saved
           </span>
         )}
       </div>
@@ -171,28 +181,29 @@ export default function EvaluationForm({ onSaved }) {
 
 function Label({ children }) {
   return (
-    <label className="block text-sm font-medium text-gray-300 mb-1.5">
+    <label className="block text-sm font-medium text-gray-400 mb-1.5">
       {children}
     </label>
   )
 }
 
 function ResponseBlock({ label, value, onChange, color }) {
-  const border = color === 'blue' ? 'border-blue-800/50' : 'border-emerald-800/50'
-  const badge =
-    color === 'blue'
-      ? 'bg-blue-900/40 text-blue-300'
-      : 'bg-emerald-900/40 text-emerald-300'
+  const isBlue = color === 'blue'
+  const border = isBlue ? 'border-blue-800/40' : 'border-emerald-800/40'
+  const badge = isBlue
+    ? 'bg-blue-900/40 text-blue-300 border border-blue-800/50'
+    : 'bg-emerald-900/40 text-emerald-300 border border-emerald-800/50'
+  const focusBorder = isBlue ? 'focus:border-blue-500/60' : 'focus:border-emerald-500/60'
 
   return (
-    <div className={`rounded-lg border ${border} bg-gray-900 p-4`}>
-      <div className="flex items-center gap-2 mb-2">
-        <span className={`text-xs font-semibold px-2 py-0.5 rounded ${badge}`}>
+    <div className={`rounded-xl border ${border} bg-gray-900/80 backdrop-blur-sm p-4`}>
+      <div className="flex items-center gap-2 mb-3">
+        <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${badge}`}>
           {label}
         </span>
       </div>
       <textarea
-        className="w-full h-40 bg-gray-950 border border-gray-700 rounded-md px-3 py-2 text-sm text-gray-200 placeholder-gray-600 resize-none focus:outline-none focus:border-violet-500"
+        className={`w-full h-44 bg-gray-950/60 border border-gray-800/60 rounded-lg px-3 py-2.5 text-sm text-gray-200 placeholder-gray-600 resize-none focus:outline-none focus:ring-1 focus:ring-current/20 transition-all ${focusBorder}`}
         placeholder={`Paste ${label} here...`}
         value={value}
         onChange={e => onChange(e.target.value)}
@@ -202,26 +213,30 @@ function ResponseBlock({ label, value, onChange, color }) {
 }
 
 function WinnerButton({ option, selected, onClick }) {
-  const colors = {
-    A: selected
-      ? 'bg-blue-600 text-white border-blue-500'
-      : 'bg-gray-900 text-gray-400 border-gray-700 hover:border-blue-700',
-    B: selected
-      ? 'bg-emerald-600 text-white border-emerald-500'
-      : 'bg-gray-900 text-gray-400 border-gray-700 hover:border-emerald-700',
-    Tie: selected
-      ? 'bg-yellow-600 text-white border-yellow-500'
-      : 'bg-gray-900 text-gray-400 border-gray-700 hover:border-yellow-700',
-  }
+  const styles = {
+    A: {
+      active: 'bg-blue-600 text-white border-blue-500 shadow-lg shadow-blue-900/40',
+      idle: 'bg-gray-900/80 text-gray-400 border-gray-700/60 hover:border-blue-700/60 hover:text-blue-300',
+      label: 'Response A Wins',
+    },
+    B: {
+      active: 'bg-emerald-600 text-white border-emerald-500 shadow-lg shadow-emerald-900/40',
+      idle: 'bg-gray-900/80 text-gray-400 border-gray-700/60 hover:border-emerald-700/60 hover:text-emerald-300',
+      label: 'Response B Wins',
+    },
+    Tie: {
+      active: 'bg-yellow-600 text-white border-yellow-500 shadow-lg shadow-yellow-900/40',
+      idle: 'bg-gray-900/80 text-gray-400 border-gray-700/60 hover:border-yellow-700/60 hover:text-yellow-300',
+      label: 'Tie',
+    },
+  }[option]
 
   return (
     <button
       onClick={onClick}
-      className={`px-5 py-2 rounded-lg border text-sm font-semibold transition-colors ${colors[option]}`}
+      className={`px-5 py-2.5 rounded-lg border text-sm font-semibold transition-all ${selected ? styles.active : styles.idle}`}
     >
-      {option === 'A' && '🅰 Response A Wins'}
-      {option === 'B' && '🅱 Response B Wins'}
-      {option === 'Tie' && '🤝 Tie'}
+      {styles.label}
     </button>
   )
 }

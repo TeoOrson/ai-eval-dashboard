@@ -42,7 +42,7 @@ export default function IssueTags({ selected, onChange }) {
   }
 
   return (
-    <div className="flex flex-wrap gap-2 mt-2">
+    <div className="flex flex-wrap gap-2 mt-2 p-4 bg-gray-900/60 border border-gray-800/50 rounded-xl backdrop-blur-sm">
       {ALL_TAGS.map(tag => {
         const isActive = selected.includes(tag.id)
         const { base, active } = colorMap[tag.color]
