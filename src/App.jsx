@@ -16,7 +16,7 @@ export default function App() {
       <header className="border-b border-white/5 bg-black/30 backdrop-blur-md sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold tracking-tight m-0 leading-none bg-gradient-to-r from-violet-300 to-indigo-300 bg-clip-text text-transparent">
+            <h1 className="text-xl font-bold tracking-tight m-0 leading-none bg-gradient-to-r from-cyan-300 to-teal-300 bg-clip-text text-transparent">
               AI Response Evaluator
             </h1>
             <p className="text-xs text-gray-500 mt-1">
@@ -51,7 +51,7 @@ function TabButton({ active, onClick, children }) {
       onClick={onClick}
       className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
         active
-          ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md shadow-violet-900/40'
+          ? 'bg-gradient-to-r from-cyan-600 to-teal-600 text-white shadow-md shadow-cyan-900/40'
           : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800/60'
       }`}
     >

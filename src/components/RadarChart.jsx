@@ -42,20 +42,20 @@ export default function RadarChart({ scoresA, scoresB }) {
         <line key={i} x1={CX} y1={CY} x2={x} y2={y} stroke="#374151" strokeWidth="1" />
       ))}
 
-      {/* B polygon */}
+      {/* B polygon — amber */}
       <polygon
         points={polygon(scoresB)}
-        fill="rgba(16, 185, 129, 0.12)"
-        stroke="#10b981"
+        fill="rgba(245, 158, 11, 0.13)"
+        stroke="#f59e0b"
         strokeWidth="2"
         strokeLinejoin="round"
       />
 
-      {/* A polygon */}
+      {/* A polygon — violet */}
       <polygon
         points={polygon(scoresA)}
-        fill="rgba(96, 165, 250, 0.12)"
-        stroke="#60a5fa"
+        fill="rgba(139, 92, 246, 0.13)"
+        stroke="#8b5cf6"
         strokeWidth="2"
         strokeLinejoin="round"
       />
@@ -75,9 +75,9 @@ export default function RadarChart({ scoresA, scoresB }) {
       ))}
 
       {/* Legend */}
-      <rect x="6" y="184" width="8" height="3" rx="1" fill="#60a5fa" />
+      <rect x="6" y="184" width="8" height="3" rx="1" fill="#8b5cf6" />
       <text x="17" y="187" fontSize="8" fill="#6b7280" dominantBaseline="middle">A</text>
-      <rect x="30" y="184" width="8" height="3" rx="1" fill="#10b981" />
+      <rect x="30" y="184" width="8" height="3" rx="1" fill="#f59e0b" />
       <text x="41" y="187" fontSize="8" fill="#6b7280" dominantBaseline="middle">B</text>
     </svg>
   )

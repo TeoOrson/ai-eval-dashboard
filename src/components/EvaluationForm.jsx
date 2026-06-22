@@ -106,12 +106,12 @@ export default function EvaluationForm({ onSaved }) {
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <ResponseBlock
-            label="Response A" color="blue"
+            label="Response A" color="violet"
             value={form.responseA}
             onChange={v => setField('responseA', v)}
           />
           <ResponseBlock
-            label="Response B" color="emerald"
+            label="Response B" color="amber"
             value={form.responseB}
             onChange={v => setField('responseB', v)}
           />
@@ -190,7 +190,7 @@ export default function EvaluationForm({ onSaved }) {
           <div className="flex items-center gap-3 pt-1">
             <button
               onClick={handleSave}
-              className="px-6 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white rounded-lg font-medium transition-all shadow-lg shadow-violet-900/30"
+              className="px-6 py-2.5 bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white rounded-lg font-medium transition-all shadow-lg shadow-cyan-900/30"
             >
               Save Evaluation
             </button>
@@ -218,8 +218,8 @@ function CriteriaTable({ criteria, scoresA, scoresB, onScoreA, onScoreB, totalA,
       {/* Column headers */}
       <div className="grid grid-cols-[1fr_164px_164px] px-4 py-2.5 border-b border-gray-800/40 bg-gray-900/40">
         <span className="text-xs text-gray-600 font-medium uppercase tracking-wider">Criterion</span>
-        <span className="text-xs font-semibold text-blue-400 text-center">Response A</span>
-        <span className="text-xs font-semibold text-emerald-400 text-center">Response B</span>
+        <span className="text-xs font-semibold text-violet-400 text-center">Response A</span>
+        <span className="text-xs font-semibold text-amber-400 text-center">Response B</span>
       </div>
 
       {/* Rows */}
@@ -233,8 +233,8 @@ function CriteriaTable({ criteria, scoresA, scoresB, onScoreA, onScoreB, totalA,
               }`}
             >
               <span className="text-sm text-gray-300">{c.label}</span>
-              <PipRow score={scoresA[c.key]} onScore={val => onScoreA(c.key, val)} color="blue" />
-              <PipRow score={scoresB[c.key]} onScore={val => onScoreB(c.key, val)} color="emerald" />
+              <PipRow score={scoresA[c.key]} onScore={val => onScoreA(c.key, val)} color="violet" />
+              <PipRow score={scoresB[c.key]} onScore={val => onScoreB(c.key, val)} color="amber" />
             </div>
           ))}
 
@@ -242,11 +242,11 @@ function CriteriaTable({ criteria, scoresA, scoresB, onScoreA, onScoreB, totalA,
           <div className="grid grid-cols-[1fr_164px_164px] items-center px-4 py-3 bg-gray-900/40 border-t border-gray-800/50">
             <span className="text-xs text-gray-500 font-medium uppercase tracking-wider">Total</span>
             <div className="text-center">
-              <span className="text-xl font-bold text-blue-400 tabular-nums">{totalA}</span>
+              <span className="text-xl font-bold text-violet-400 tabular-nums">{totalA}</span>
               <span className="text-xs text-gray-600">/30</span>
             </div>
             <div className="text-center">
-              <span className="text-xl font-bold text-emerald-400 tabular-nums">{totalB}</span>
+              <span className="text-xl font-bold text-amber-400 tabular-nums">{totalB}</span>
               <span className="text-xs text-gray-600">/30</span>
             </div>
           </div>
@@ -257,9 +257,9 @@ function CriteriaTable({ criteria, scoresA, scoresB, onScoreA, onScoreB, totalA,
 }
 
 function PipRow({ score, onScore, color }) {
-  const active = color === 'blue'
-    ? 'bg-blue-500 text-white shadow-md shadow-blue-500/40 scale-110'
-    : 'bg-emerald-500 text-white shadow-md shadow-emerald-500/40 scale-110'
+  const active = color === 'violet'
+    ? 'bg-violet-500 text-white shadow-md shadow-violet-500/40 scale-110'
+    : 'bg-amber-500 text-white shadow-md shadow-amber-500/40 scale-110'
 
   return (
     <div className="flex gap-1 justify-center">
@@ -287,11 +287,12 @@ function SectionLabel({ children }) {
 }
 
 function ResponseBlock({ label, value, onChange, color }) {
-  const isBlue = color === 'blue'
-  const border   = isBlue ? 'border-blue-800/40'    : 'border-emerald-800/40'
-  const badge    = isBlue ? 'bg-blue-900/40 text-blue-300 border border-blue-800/50'
-                           : 'bg-emerald-900/40 text-emerald-300 border border-emerald-800/50'
-  const focus    = isBlue ? 'focus:border-blue-500/60' : 'focus:border-emerald-500/60'
+  const isViolet = color === 'violet'
+  const border = isViolet ? 'border-violet-800/40' : 'border-amber-800/40'
+  const badge  = isViolet
+    ? 'bg-violet-900/40 text-violet-300 border border-violet-800/50'
+    : 'bg-amber-900/40 text-amber-300 border border-amber-800/50'
+  const focus  = isViolet ? 'focus:border-violet-500/60' : 'focus:border-amber-500/60'
 
   return (
     <div className={`rounded-xl border ${border} bg-gray-900/60 p-4`}>
@@ -310,9 +311,9 @@ function ResponseBlock({ label, value, onChange, color }) {
 
 function WinnerButton({ option, selected, onClick }) {
   const cfg = {
-    A:   { active: 'bg-blue-600    border-blue-500    shadow-blue-900/40',    idle: 'border-gray-700/60 hover:border-blue-700/60    hover:text-blue-300',    label: 'Response A Wins' },
-    B:   { active: 'bg-emerald-600 border-emerald-500 shadow-emerald-900/40', idle: 'border-gray-700/60 hover:border-emerald-700/60 hover:text-emerald-300', label: 'Response B Wins' },
-    Tie: { active: 'bg-yellow-600  border-yellow-500  shadow-yellow-900/40',  idle: 'border-gray-700/60 hover:border-yellow-700/60  hover:text-yellow-300',  label: 'Tie'             },
+    A:   { active: 'bg-violet-600 border-violet-500 shadow-violet-900/40', idle: 'border-gray-700/60 hover:border-violet-700/60 hover:text-violet-300', label: 'Response A Wins' },
+    B:   { active: 'bg-amber-600  border-amber-500  shadow-amber-900/40',  idle: 'border-gray-700/60 hover:border-amber-700/60  hover:text-amber-300',  label: 'Response B Wins' },
+    Tie: { active: 'bg-cyan-600   border-cyan-500   shadow-cyan-900/40',   idle: 'border-gray-700/60 hover:border-cyan-700/60   hover:text-cyan-300',   label: 'Tie'             },
   }[option]
 
   return (

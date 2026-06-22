@@ -13,16 +13,16 @@ export default function ScoreComparison({ totalA, totalB, scoresA, scoresB }) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
         {/* Bars */}
         <div className="space-y-3">
-          <ScoreBar label="Response A" color="blue" total={totalA} />
-          <ScoreBar label="Response B" color="emerald" total={totalB} />
+          <ScoreBar label="Response A" color="violet" total={totalA} />
+          <ScoreBar label="Response B" color="amber" total={totalB} />
 
           <div className="pt-2 border-t border-gray-800">
             {!hasScores ? (
               <p className="text-xs text-gray-600">Score both responses above to see comparison.</p>
             ) : diff === 0 ? (
-              <span className="text-xs font-medium text-yellow-400">Tied — no clear winner yet</span>
+              <span className="text-xs font-medium text-cyan-400">Tied — no clear winner yet</span>
             ) : (
-              <span className={`text-xs font-medium ${diff > 0 ? 'text-blue-400' : 'text-emerald-400'}`}>
+              <span className={`text-xs font-medium ${diff > 0 ? 'text-violet-400' : 'text-amber-400'}`}>
                 Response {diff > 0 ? 'A' : 'B'} leading by{' '}
                 <span className="font-bold">{Math.abs(diff)}</span> point{Math.abs(diff) !== 1 ? 's' : ''}
                 {' — '}
@@ -46,15 +46,13 @@ export default function ScoreComparison({ totalA, totalB, scoresA, scoresB }) {
 function ScoreBar({ label, color, total }) {
   const pct = (total / MAX) * 100
   const styles = {
-    blue: {
-      text: 'text-blue-400',
-      bar: 'bg-gradient-to-r from-blue-700 to-blue-400',
-      bg: 'bg-blue-900/20 border-blue-800/40',
+    violet: {
+      text: 'text-violet-400',
+      bar: 'bg-gradient-to-r from-violet-700 to-violet-400',
     },
-    emerald: {
-      text: 'text-emerald-400',
-      bar: 'bg-gradient-to-r from-emerald-700 to-emerald-400',
-      bg: 'bg-emerald-900/20 border-emerald-800/40',
+    amber: {
+      text: 'text-amber-400',
+      bar: 'bg-gradient-to-r from-amber-700 to-amber-400',
     },
   }[color]
 

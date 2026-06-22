@@ -51,8 +51,8 @@ export default function SavedEvaluations() {
       {/* Summary stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <StatCard label="Total" value={evaluations.length} sub="evaluations" />
-        <StatCard label="Avg Score A" value={avgA.toFixed(1)} sub="/ 30" color="blue" />
-        <StatCard label="Avg Score B" value={avgB.toFixed(1)} sub="/ 30" color="emerald" />
+        <StatCard label="Avg Score A" value={avgA.toFixed(1)} sub="/ 30" color="violet" />
+        <StatCard label="Avg Score B" value={avgB.toFixed(1)} sub="/ 30" color="amber" />
         <StatCard
           label="Win Rate A"
           value={evaluations.length ? `${Math.round((aWins / evaluations.length) * 100)}%` : '—'}
@@ -92,9 +92,9 @@ export default function SavedEvaluations() {
 
 function StatCard({ label, value, sub, color }) {
   const textColor = {
-    blue:    'text-blue-400',
-    emerald: 'text-emerald-400',
-    violet:  'text-violet-400',
+    violet: 'text-violet-400',
+    amber:  'text-amber-400',
+    cyan:   'text-cyan-400',
   }[color] || 'text-white'
 
   return (
@@ -111,8 +111,8 @@ function EvalCard({ ev, isExpanded, onToggle, onDelete }) {
   const tB = totalScore(ev.scoresB)
 
   const winnerStyle = {
-    A:   { text: 'text-blue-400',    bg: 'bg-blue-900/30 border-blue-800/50'    },
-    B:   { text: 'text-emerald-400', bg: 'bg-emerald-900/30 border-emerald-800/50' },
+    A:   { text: 'text-violet-400', bg: 'bg-violet-900/30 border-violet-800/50' },
+    B:   { text: 'text-amber-400',  bg: 'bg-amber-900/30 border-amber-800/50'   },
     Tie: { text: 'text-yellow-400',  bg: 'bg-yellow-900/30 border-yellow-800/50'   },
   }[ev.winner] || { text: 'text-gray-500', bg: 'bg-gray-800/50 border-gray-700' }
 
@@ -138,10 +138,10 @@ function EvalCard({ ev, isExpanded, onToggle, onDelete }) {
                 </span>
               )}
               <span className="text-xs text-gray-500">
-                A: <span className="text-blue-400 font-semibold tabular-nums">{tA}</span>
+                A: <span className="text-violet-400 font-semibold tabular-nums">{tA}</span>
                 <span className="text-gray-700">/30</span>
                 {' · '}
-                B: <span className="text-emerald-400 font-semibold tabular-nums">{tB}</span>
+                B: <span className="text-amber-400 font-semibold tabular-nums">{tB}</span>
                 <span className="text-gray-700">/30</span>
               </span>
               {ev.tags?.length > 0 && (
@@ -179,8 +179,8 @@ function EvalCard({ ev, isExpanded, onToggle, onDelete }) {
 
           {/* Score breakdown + radar */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <ScoreBreakdown label="Response A" scores={ev.scoresA} total={tA} color="blue" />
-            <ScoreBreakdown label="Response B" scores={ev.scoresB} total={tB} color="emerald" />
+            <ScoreBreakdown label="Response A" scores={ev.scoresA} total={tA} color="violet" />
+            <ScoreBreakdown label="Response B" scores={ev.scoresB} total={tB} color="amber" />
             <div className="bg-gray-950/60 rounded-xl p-4 flex flex-col items-center justify-center">
               <p className="text-xs text-gray-500 font-medium mb-2 self-start">Criteria Radar</p>
               <RadarChart scoresA={ev.scoresA} scoresB={ev.scoresB} />
@@ -206,9 +206,9 @@ function Field({ label, value }) {
 }
 
 function ScoreBreakdown({ label, scores, total, color }) {
-  const isBlue = color === 'blue'
-  const textColor = isBlue ? 'text-blue-400' : 'text-emerald-400'
-  const barGradient = isBlue ? 'from-blue-700 to-blue-400' : 'from-emerald-700 to-emerald-400'
+  const isViolet = color === 'violet'
+  const textColor = isViolet ? 'text-violet-400' : 'text-amber-400'
+  const barGradient = isViolet ? 'from-violet-700 to-violet-400' : 'from-amber-700 to-amber-400'
 
   return (
     <div className="bg-gray-950/60 border border-gray-800/40 rounded-xl p-4">

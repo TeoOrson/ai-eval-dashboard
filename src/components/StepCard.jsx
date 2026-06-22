@@ -5,8 +5,8 @@ export default function StepCard({ number, title, status, isOpen, onToggle, chil
       pill: null,
     },
     active: {
-      ring: 'bg-violet-900/40 text-violet-400 border-violet-700/60',
-      pill: <span className="text-xs text-violet-400 bg-violet-900/30 border border-violet-800/50 px-2.5 py-0.5 rounded-full font-medium">In progress</span>,
+      ring: 'bg-cyan-900/40 text-cyan-400 border-cyan-700/60',
+      pill: <span className="text-xs text-cyan-400 bg-cyan-900/30 border border-cyan-800/50 px-2.5 py-0.5 rounded-full font-medium">In progress</span>,
     },
     complete: {
       ring: 'bg-emerald-900/40 text-emerald-400 border-emerald-700/60',
@@ -16,11 +16,10 @@ export default function StepCard({ number, title, status, isOpen, onToggle, chil
 
   return (
     <div className={`bg-gray-900/80 border rounded-xl overflow-hidden backdrop-blur-sm transition-colors ${
-      status === 'active' ? 'border-violet-800/30' :
+      status === 'active'   ? 'border-cyan-800/30'    :
       status === 'complete' ? 'border-emerald-900/40' :
       'border-gray-800/60'
     }`}>
-      {/* Header */}
       <button
         className="w-full px-5 py-4 flex items-center gap-3.5 text-left hover:bg-white/[0.02] transition-colors group"
         onClick={onToggle}
@@ -35,7 +34,6 @@ export default function StepCard({ number, title, status, isOpen, onToggle, chil
         </span>
       </button>
 
-      {/* Content */}
       {isOpen && (
         <div className="border-t border-gray-800/50 px-5 py-5 animate-fade-in">
           {children}
