@@ -7,7 +7,7 @@ export default function ScoreComparison({ totalA, totalB, scoresA, scoresB }) {
   const hasScores = totalA > 0 || totalB > 0
 
   return (
-    <div className="bg-gray-900/80 border border-gray-800/60 rounded-xl p-5 backdrop-blur-sm animate-fade-up" style={{ animationDelay: '80ms' }}>
+    <div className="bg-gray-900/60 border border-gray-800/50 rounded-xl p-5">
       <h2 className="text-sm font-semibold text-white mb-4">Live Score Comparison</h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
